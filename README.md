@@ -147,8 +147,9 @@ Steps to run this project:
         passport-local이 좀 오래된 라이브러리 추가 타입 설피 yarn add -D @types/passport-local
         컨트롤러가 수행되기 전에 인증 절차를 거치도록 하는 auth 모들과 서비스 생성 : nest g mo auth, nest g s auth
         passport는 전략파일을 생성해야 한다
-            @UseGuards(AuthGuard('local'))
-            passport에서 사용할 jwt 패키지 설치 : yarn add @nestjs/jwt passport-jwt , yarn add -D @types/passport-jwt
+        
+        컨트롤러에 해당 데코레이터 선언 @UseGuards(AuthGuard('local'))
+                passport에서 사용할 jwt 패키지 설치 : yarn add @nestjs/jwt passport-jwt , yarn add -D @types/passport-jwt
 
     
 
