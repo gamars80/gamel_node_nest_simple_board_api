@@ -5,6 +5,6 @@ console.log(process.env.NODE_ENV);
 export default ({} = {}) =>
 	ConfigModule.forRoot({
 		isGlobal: true,
-		envFilePath: `.env.local`,
+		envFilePath: `.env.${process.env.NODE_ENV}`,
 		load: [configuration],
 	});

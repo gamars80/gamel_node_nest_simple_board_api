@@ -50,7 +50,7 @@ export class UserService {
 		});
 	}
 
-	async getUserByUserName(username: string) {
+	async getUserByUsername(username: string) {
 		return this.userRepository.findOneBy({
 			username,
 		});
