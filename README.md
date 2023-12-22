@@ -124,4 +124,35 @@ Steps to run this project:
 # TypeORM 이용해 게시글 삭제하기 리팩토링
     기존에 만든 게시글 삭제 레포지토리 이용하여 db값 수정해보기
 
+# 전체 회원 리스트 가져오기, 회원 가입, 로그인
+    nest cli로 user 모듈 생성 nest g mo user > app.module.ts imports에 추가됨
+    nest cli로 user 콘트롤러와 서비스 추가 nest g co use , nest g s user
+    서브 쿼리 원할시 쿼리 빌더 이용해보기
+        const qb = this.userRepository.createQueryBuilder();
+		qb.addSelect((subQuery) => {
+			return subQuery
+				.select('count(id)')
+				.from(Board, 'Board')
+				.where('Board.userId = User.id');
+		}, 'User_boardCount'); // User_원하는명 User 엔티티라는 식으로 네이밍 필요 
+
+		return qb.getMany();
+
+        User 엔티티에 서브 쿼리의 alias 컬럼  boardCount 추가 해당 컬럼은 해당엔티티 자체에서 셀렉트 되면 안되고 널러블이고 인서트아니고 업데이트시 아니고
+        @Column({ select: false, nullable: true, insert: false, update: false })
+	    boardCount?: number;
+    회원가입시 비번 암호화 인한 패키지 설치  yarn add bcrypt
+    jwt 토큰 생성해하여 로그인 성공시 acceess toekn 내려주기 : 추가 패키지 설치 yarn add jsonwebtoken
+    passport 라이브러리 사용한 로그인 리팩토링 : 추가 패키지 설치 yarn add @nestjs/passport passport passport-local
+        passport-local이 좀 오래된 라이브러리 추가 타입 설피 yarn add -D @types/passport-local
+        컨트롤러가 수행되기 전에 인증 절차를 거치도록 하는 auth 모들과 서비스 생성 : nest g mo auth, nest g s auth
+        passport는 전략파일을 생성해야 한다
+            @UseGuards(AuthGuard('local'))
+            passport에서 사용할 jwt 패키지 설치 : yarn add @nestjs/jwt passport-jwt , yarn add -D @types/passport-jwt
+
+    
+
+
+
+
 

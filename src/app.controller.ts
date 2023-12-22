@@ -1,19 +1,25 @@
+import { User } from 'src/entity/user.entity';
 import { Ip } from './decorators/ip.decorator';
 import {
 	Controller,
 	Get,
-	HttpException,
-	HttpStatus,
 	Logger,
+	Post,
+	Request,
+	UseGuards,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ConfigService } from '@nestjs/config';
+import { AuthGuard } from '@nestjs/passport';
+import { LocalAuthGuard } from './auth/local-auth.guard';
+import { AuthService } from './auth/auth.service';
 
 @Controller()
 export class AppController {
 	constructor(
 		private readonly appService: AppService,
 		private readonly configService: ConfigService,
+		private readonly authService: AuthService,
 	) {}
 	private readonly logger = new Logger(AppController.name);
 
@@ -30,5 +36,11 @@ export class AppController {
 		return this.appService.getHello();
 
 		// throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+	}
+
+	@UseGuards(LocalAuthGuard)
+	@Post('login')
+	async login(@Request() req) {
+		return this.authService.login(req.user);
 	}
 }
