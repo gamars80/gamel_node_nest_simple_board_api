@@ -165,7 +165,35 @@ Steps to run this project:
 # 게시판에 회원정보 적용하기
     게시글에 대한 생성 수정 삭제시 로그인 되어 있는지 체크 할 수 있도록
     UserInfo 라는 커스텀 데코레이터를 생성한다 : 역할은 로그인 성공시 리퀘스트에 담긴 유저정보 존재 유무를 확인하기 위한
-    그리하여 로그인이 필요한 컨트롤러 메소드 변수로 받는다 @UserInfo() userInfo 
+    그리하여 로그인이 필요한 컨트롤러 메소드 변수로 받는다 @UserInfo() userInfo 로 받아서 로그인한 user의 고유 아이디를 가져다 사용할 수 있다
+    게시글 삭제 수정에도 UserInfo 적용하고 그를 위용해 소유자 체크
+
+# pm2를 이용한 노드 프로세스 관리
+    1.yarn build 하면 .dist라는 경로에 빌드가 되고 해당 경로의 main.js 파일을 실행하면 프로젝트가 실행된다
+    2.package.json 의 스크립트로 각 env 환경에 맞게 프로젝트 실행가능
+        crossenv 패키지 추가 yarn add cross-env
+        "start:prod": "cross-env NODE_ENV=production node dist/main.js",
+    pm2 설치 : yarn global add pm2
+    package.json 수정 "start:prod": "cross-env NODE_ENV=production pm2 start dist/main.js",
+    pm2 log : 서버 실행시 로그 확인
+    pm2 ls: 실행되고 있는 서버의 상태 확인
+    pm2 monit: 실시간으로 pm2의 상황을 보고 싶을시
+    pm2 restart: 인스턴스 환경에서 최신 소스를 깃 풀하고 빌드 하고 서버를 재시작 할시
+    pm2 stop 이름 또는 아이디 : 중지
+    pm2 delete 이름 또는 아이디: 삭제
+
+# 유닛 테스트와 e2e 테스트 적용해보기
+    바라보는 관점의 차이임
+        유닛테스트 : 각 영역에서 동작하는 기능에 대해 사용자의 관점에 대해 비즈니스로직을 테스트 하는 목적이므로 좀더 상세
+        e2e 테스트 : 각각의 테스트가 모인 형태를 전체적으로 테스트 하기 때문에 전체 시나리오 테스트하는 것 같은 설계로 진행 그만큼 시간이 많이 소요
+    package.json 수정
+        "moduleNameMapper": {
+            "src/(.*)" : "<rootDir>/src/$1"
+        } //추가
+
+        "roots": ["src"], <-- 이렇게 수정
+
+    
 
 
     

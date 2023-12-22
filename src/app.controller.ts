@@ -5,6 +5,7 @@ import {
 	Get,
 	Logger,
 	Post,
+	Query,
 	Request,
 	UseGuards,
 } from '@nestjs/common';
@@ -37,6 +38,11 @@ export class AppController {
 		return this.appService.getHello();
 
 		// throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+	}
+
+	@Get('name')
+	getName(@Query('name') name: string): string {
+		return `${name} hello`;
 	}
 
 	@UseGuards(LocalAuthGuard)
