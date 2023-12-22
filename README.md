@@ -192,6 +192,8 @@ Steps to run this project:
         } //추가
 
         "roots": ["src"], <-- 이렇게 수정
+    
+    e2e 테스트 스크립트 실행 : yarn test:e2e
 
     
 
