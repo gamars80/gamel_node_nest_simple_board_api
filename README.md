@@ -147,9 +147,26 @@ Steps to run this project:
         passport-local이 좀 오래된 라이브러리 추가 타입 설피 yarn add -D @types/passport-local
         컨트롤러가 수행되기 전에 인증 절차를 거치도록 하는 auth 모들과 서비스 생성 : nest g mo auth, nest g s auth
         passport는 전략파일을 생성해야 한다
-        
         컨트롤러에 해당 데코레이터 선언 @UseGuards(AuthGuard('local'))
-                passport에서 사용할 jwt 패키지 설치 : yarn add @nestjs/jwt passport-jwt , yarn add -D @types/passport-jwt
+        passport에서 사용할 jwt 패키지 설치 : yarn add @nestjs/jwt passport-jwt , yarn add -D @types/passport-jwt
+
+    localhost:3000/login 이 호출되면 app.controller 의 login 함수가 호출 > 컨트롤러에 선언된 @UseGuards 인해 LocalStrategy 가 호출 > LocalStrategy 클래스내의 validate 
+    
+    
+    함수가 호출되서 userService에서 username 과 패스워드로 회원을 찾아 존재하고 비번이 일치시 유저 정보를 반환하여 Request오브젝트에 담겨 authService의 login 함수가 호출 
+    > authService에서 jwt sign을 통해 어세스 토큰을 내려준다
+
+    JwtStrategy를 생성하여 @UseGuards(JwtAuthGuard) 를 통해 me라는 api가 호출시 이번에는 Jwt 전략을 타서 헤더에서 토큰을 가져오도록 한다
+
+    유저엔티티를 가져올 경우 password는 가져오기 않게 하기 위한 객체 직렬화
+        ClassSerializerInterceptor : API 응답을 보내기 전에 응답객체의 엔티티, DTO에 class transformer 데코레이터를 맞게 응답객체를 변형하는 인터셉터
+        유저엔티티의 password에 @Exclude() 선언 컨트롤러에 @UseInterceptors(ClassSerializerInterceptor) 선언
+
+# 게시판에 회원정보 적용하기
+    게시글에 대한 생성 수정 삭제시 로그인 되어 있는지 체크 할 수 있도록
+    UserInfo 라는 커스텀 데코레이터를 생성한다 : 역할은 로그인 성공시 리퀘스트에 담긴 유저정보 존재 유무를 확인하기 위한
+    그리하여 로그인이 필요한 컨트롤러 메소드 변수로 받는다 @UserInfo() userInfo 
+
 
     
 

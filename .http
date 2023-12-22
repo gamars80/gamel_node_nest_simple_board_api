@@ -51,7 +51,7 @@ Content-Type: application/json
 
 ###
 
-# 로그인
+# 로그인(패스포트 없이)
 POST  http://localhost:3000/user/login
 Content-Type: application/json
 
@@ -74,3 +74,12 @@ Content-Type: application/json
 ###
 
 GET http://localhost:3000
+
+###
+
+# 유저 ME
+GET http://localhost:3000/me
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdhZ2FtZWw4MiIsIm5hbWUiOiLqsIDqsIDrqZwzIiwiaWF0IjoxNzAzMjIyOTczLCJleHAiOjE3MDMyMjY1NzN9.HRcbRHpVxZxEuR7UOD1o4UkshnYfISPe7ZSx6FGbKnk
+
+###
